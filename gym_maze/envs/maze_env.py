@@ -77,7 +77,7 @@ class MazeEnv(gym.Env):
             self.maze_view.move_robot(action)
 
         if np.array_equal(self.maze_view.robot, self.maze_view.goal):
-            reward = 1
+            reward = 5
             done = True
         else:
             reward = -0.1/(self.maze_size[0]*self.maze_size[1])
