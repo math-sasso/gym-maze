@@ -11,8 +11,6 @@ class MazeEnv(gym.Env):
         "render.modes": ["human", "rgb_array"],
     }
 
-    ACTION = ["N", "S", "E", "W"]
-
     def __init__(self, maze_file=None, maze_size=None, mode=None, enable_render=True):
 
         self.viewer = None
@@ -72,7 +70,7 @@ class MazeEnv(gym.Env):
 
     def step(self, action):
         if isinstance(action, int):
-            self.maze_view.move_robot(self.ACTION[action])
+            self.maze_view.move_robot(action)
         else:
             self.maze_view.move_robot(action)
 
