@@ -284,10 +284,10 @@ class MazeView2D:
 class Maze:
 
     COMPASS = {
-        "N": (0, -1),
-        "E": (1, 0),
-        "S": (0, 1),
-        "W": (-1, 0)
+        0: (0, -1),
+        1: (1, 0),
+        2: (0, 1),
+        3: (-1, 0)
     }
 
     def __init__(self, maze_cells=None, maze_size=(10,10), has_loops=True, num_portals=0):
