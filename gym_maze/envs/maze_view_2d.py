@@ -90,9 +90,6 @@ class MazeView2D:
             pass
 
     def move_robot(self, dir):
-        if dir not in self.__maze.COMPASS.keys():
-            raise ValueError("dir cannot be %s. The only valid dirs are %s."
-                             % (str(dir), str(self.__maze.COMPASS.keys())))
 
         if self.__maze.is_open(self.__robot, dir):
 
@@ -173,24 +170,21 @@ class MazeView2D:
         dx = x * self.CELL_W
         dy = y * self.CELL_H
 
-        if not isinstance(dirs, str):
-            raise TypeError("dirs must be a str.")
-
         for dir in dirs:
-            if dir == "S":
+            if dir == 1:
                 line_head = (dx + 1, dy + self.CELL_H)
                 line_tail = (dx + self.CELL_W - 1, dy + self.CELL_H)
-            elif dir == "N":
+            elif dir == 0:
                 line_head = (dx + 1, dy)
                 line_tail = (dx + self.CELL_W - 1, dy)
-            elif dir == "W":
+            elif dir == 3:
                 line_head = (dx, dy + 1)
                 line_tail = (dx, dy + self.CELL_H - 1)
-            elif dir == "E":
+            elif dir == 2:
                 line_head = (dx + self.CELL_W, dy + 1)
                 line_tail = (dx + self.CELL_W, dy + self.CELL_H - 1)
             else:
-                raise ValueError("The only valid directions are (N, S, E, W).")
+                raise ValueError("The only valid directions are (0,1,2,3).")
 
             pygame.draw.line(self.maze_layer, colour, line_head, line_tail)
 
