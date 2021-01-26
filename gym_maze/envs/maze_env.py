@@ -5,6 +5,23 @@ from gym import error, spaces, utils
 from gym.utils import seeding
 from gym_maze.envs.maze_view_2d import MazeView2D
 
+def state_to_bucket(state):
+  state = state.ravel()
+  bucket_indice = []
+  for i in range(len(state)):
+      if state[i] <= STATE_BOUNDS[i][0]:
+          bucket_index = 0
+      elif state[i] >= STATE_BOUNDS[i][1]:
+          bucket_index = NUM_BUCKETS[i] - 1
+      else:
+          # Mapping the state bounds to the bucket array
+          bound_width = STATE_BOUNDS[i][1] - STATE_BOUNDS[i][0]
+          offset = (NUM_BUCKETS[i]-1)*STATE_BOUNDS[i][0]/bound_width
+          scaling = (NUM_BUCKETS[i]-1)/bound_width
+          bucket_index = int(round(scaling*state[i] - offset))
+      bucket_indice.append(bucket_index)
+  return tuple(bucket_indice)
+
 
 class MazeEnv(gym.Env):
     metadata = {
@@ -85,6 +102,8 @@ class MazeEnv(gym.Env):
         self.state = self.maze_view.robot
 
         info = {}
+        
+        self.state = state_to_bucket(self.state)
 
         return self.state, reward, done, info
 
@@ -93,6 +112,8 @@ class MazeEnv(gym.Env):
         self.state = np.zeros(2)
         self.steps_beyond_done = None
         self.done = False
+        self.state = state_to_bucket(self.state)
+        
         return self.state
 
     def is_game_over(self):
